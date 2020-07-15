@@ -1,0 +1,39 @@
+- name: Run Linux Flavors
+  include_tasks: "{{ ansible_os_family }}.yml"
+  # include_tasks: "Debian.yml"
+  
+- name: Install Python Items
+  pip:
+    name: "{{ python_packages }}"
+    executable: pip3
+
+- name: Download Terraform
+  unarchive:
+    src: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
+    dest: "/usr/local/bin"
+    remote_src: yes
+
+- name: Make gitbash prompt directory
+  file:
+    path: "{{ local_home }}/.git_bash_prompt/"
+    state: directory
+
+- name: Download Gitbashprompt
+  unarchive:
+    src: "https://api.github.com/repos/magicmonty/bash-git-prompt/tarball"
+    dest: "{{ local_home }}/.git_bash_prompt/"
+    remote_src: yes
+    list_files: yes
+  register: git_bashprompt_zip_contents
+
+- name: Create symlink to current gitbashprompt
+  file:
+    src: "{{ local_home }}/.git_bash_prompt/{{ git_bashprompt_zip_contents['files'][0] }}"
+    dest: "{{ local_home }}/.git_bash_prompt/current"
+    state: link
+
+- name: Add bashrc information
+  blockinfile:
+    path: "{{ local_home }}/.bashrc"
+    marker: "# {mark} Ansible Managed line"
+    block: "{{ lookup('file', 'bash_rc_insertion.tpl') }}"

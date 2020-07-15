@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  become: True
+  connection: local
+  gather_facts: True
+  tasks:
+    - include_role: 
+        name: standard-linux-tools

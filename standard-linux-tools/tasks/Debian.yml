@@ -1,0 +1,34 @@
+- name: Install Required packages for PPA manipulations
+  apt:
+    name: 
+      - python3-apt
+      - software-properties-common
+      - apt-transport-https
+      - gnupg2
+    update_cache: True
+
+- name: Add Deadsnakes Repo
+  apt_repository:
+    repo: ppa:deadsnakes/ppa
+
+- name: Add 3rd party keys
+  apt_key:
+    url: "{{ item }}"
+    state: present
+  with_items: "{{ debian_apt_keys }}"
+
+- name: Add 3rd party repos
+  apt_repository:
+    repo: "{{ item }}"
+    state: present 
+  with_items: "{{ debian_apt_repos }}"
+
+- name: Install Utilities
+  apt:
+    name: "{{ debian_packages }}"
+
+- name: Set Default Version of python to python3.8
+  alternatives:
+    name: python
+    link: /usr/bin/python
+    path: /usr/bin/python3.8

@@ -1,0 +1,38 @@
+local_home: "{{ lookup('env','HOME') }}"
+
+debian_apt_keys:
+  - "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+  - "https://apt.releases.hashicorp.com/gpg"
+  - "https://helm.baltorepo.com/organization/signing.asc"
+
+debian_apt_repos:
+  - "deb https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+  - "deb https://apt.kubernetes.io/ kubernetes-xenial main hardy partner"
+  - "deb https://baltocdn.com/helm/stable/debian/ all main"
+
+debian_packages:
+  - python3.8
+  - tmux
+  - jq
+  - ccze
+  - python3-pip
+  - awscli
+  - silversearcher-ag
+  - kubectl
+  - vault
+  - consul
+  - unzip
+  - traceroute
+  - whois
+  - iperf
+  - iperf3
+  - helm
+
+python_packages:
+  - boto3
+  - virtualenv
+  - yamllint
+  - prospector
+  - powerline-shell
+
+terraform_version: "0.12.28"
