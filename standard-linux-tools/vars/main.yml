@@ -4,11 +4,13 @@ debian_apt_keys:
   - "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
   - "https://apt.releases.hashicorp.com/gpg"
   - "https://helm.baltorepo.com/organization/signing.asc"
+  - "https://download.docker.com/linux/ubuntu/gpg"
 
 debian_apt_repos:
   - "deb https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
   - "deb https://apt.kubernetes.io/ kubernetes-xenial main hardy partner"
   - "deb https://baltocdn.com/helm/stable/debian/ all main"
+  - "deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
 
 debian_packages:
   - python3.8
@@ -27,6 +29,7 @@ debian_packages:
   - iperf
   - iperf3
   - helm
+  - docker-ce-cli
 
 python_packages:
   - boto3
@@ -34,5 +37,6 @@ python_packages:
   - yamllint
   - prospector
   - powerline-shell
+  - docker-compose
 
 terraform_version: "0.12.28"
